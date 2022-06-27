@@ -15,13 +15,13 @@
     </div>
     <div class="container">
         <div class="row flexbox">
-          <div class="box col-sm-1 key C">C</div>
-          <div class="box col-sm-1 key D">D</div>
-          <div class="box col-sm-1 key E">E</div>
-          <div class="box col-sm-1 key F">F</div>
-          <div class="box col-sm-1 key G">G</div>
-          <div class="box col-sm-1 key A">A</div>
-          <div class="box col-sm-1 key B">B</div>
+          <div data-key="67" class="box col-sm-1 key C">C</div>
+          <div data-key="68" class="box col-sm-1 key D">D</div>
+          <div data-key="69" class="box col-sm-1 key E">E</div>
+          <div data-key="70" class="box col-sm-1 key F">F</div>
+          <div data-key="71" class="box col-sm-1 key G">G</div>
+          <div data-key="65" class="box col-sm-1 key A">A</div>
+          <div data-key="66" class="box col-sm-1 key B">B</div>
         </div>
     </div>
 
@@ -34,10 +34,25 @@
     <audio data-key="66" src="sounds/B.wav"></audio>
 
     <script>
-      window.addEventListener('keydown', function(e){
-        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-        console.log(audio);
-      });
+        
+        function playguitar(e){
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+            console.log(audio);
+            if(!audio) return;
+            audio.currentTime = 0;
+            audio.play();
+            key.classList.add('playing');
+        }
+        function removeTransition(e){
+            if (e.propertyName !== 'transform') return;
+            this.classList.remove('playing');
+        }
+        
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
+        window.addEventListener('keydown', playguitar);
+
     </script>
 </body>
 </html>
